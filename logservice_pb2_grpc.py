@@ -40,6 +40,11 @@ class LogbookServiceStub(object):
                 request_serializer=logservice__pb2.LogDateRangeRequest.SerializeToString,
                 response_deserializer=logservice__pb2.LogEntriesResponse.FromString,
                 _registered_method=True)
+        self.GetLogsByIndex = channel.unary_stream(
+                '/logbook.LogbookService/GetLogsByIndex',
+                request_serializer=logservice__pb2.LogByIdRequest.SerializeToString,
+                response_deserializer=logservice__pb2.LogEntriesResponse.FromString,
+                _registered_method=True)
 
 
 class LogbookServiceServicer(object):
@@ -53,12 +58,23 @@ class LogbookServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetLogsByIndex(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_LogbookServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetLogsByDateRange': grpc.unary_stream_rpc_method_handler(
                     servicer.GetLogsByDateRange,
                     request_deserializer=logservice__pb2.LogDateRangeRequest.FromString,
+                    response_serializer=logservice__pb2.LogEntriesResponse.SerializeToString,
+            ),
+            'GetLogsByIndex': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetLogsByIndex,
+                    request_deserializer=logservice__pb2.LogByIdRequest.FromString,
                     response_serializer=logservice__pb2.LogEntriesResponse.SerializeToString,
             ),
     }
@@ -89,6 +105,33 @@ class LogbookService(object):
             target,
             '/logbook.LogbookService/GetLogsByDateRange',
             logservice__pb2.LogDateRangeRequest.SerializeToString,
+            logservice__pb2.LogEntriesResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetLogsByIndex(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/logbook.LogbookService/GetLogsByIndex',
+            logservice__pb2.LogByIdRequest.SerializeToString,
             logservice__pb2.LogEntriesResponse.FromString,
             options,
             channel_credentials,

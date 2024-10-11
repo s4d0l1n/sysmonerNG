@@ -4,9 +4,19 @@ package logbook;
 
 // The request message for fetching logs by date range
 message LogDateRangeRequest {
-  string log_name = 1;            // Name of the log to fetch
-  string from_date = 2;           // Start date in ISO 8601 format
-  string to_date = 3;             // End date in ISO 8601 format
+  string client_ip = 1;
+  string log_name = 2;            // Name of the log to fetch
+  string from_date = 3;           // Start date in ISO 8601 format
+  string to_date = 4;             // End date in ISO 8601 format
+  optional string filter_key = 5;
+  repeated int32 filter_values = 6;
+}
+// request to get all by index and filter for that index
+message LogByIdRequest { 
+  string client_ip = 1;
+  string log_name = 2;
+  string filter_key = 3;
+  repeated int32 filter_values = 4;
 }
 
 message LogListRequest {
@@ -42,6 +52,7 @@ message LogHostListResponse {
 service LogbookService {
   // RPC method to get logs by date range
   rpc GetLogsByDateRange (LogDateRangeRequest) returns (stream LogEntriesResponse);
+  rpc GetLogsByIndex (LogByIdRequest) returns (stream LogEntriesResponse);
 }
 
 // The Log List service definition
