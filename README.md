@@ -100,3 +100,65 @@ You can modify the configuration settings in `config.py` to suit your environmen
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
+
+ +-------------------+        gRPC Calls         +----------------------+
+ |                   | ------------------------> |                      |
+ |    gRPC Client    |                           |       gRPC Server    |
+ |                   | <------------------------ |                      |
+ +-------------------+                            +----------------------+
+    |     |     |                                      |           |
+    |     |     |                                      |           |
+    |     |     |                                      |           |
+    |     |     |                                      |           |
+    V     V     V                                      V           V
++-----------------------+                         +-------------------------+
+|   get_logs_by_date     |  <-------------------> |     LogbookService       |
+|   get_logs_by_index    |                        |                          |
+|   get_log_list_by_host |                        |  - GetLogsByDateRange    |
+|   get_log_hosts        |                        |  - GetLogsByIndex        |
++-----------------------+                         +-------------------------+
+                                                         |
+                                                         |
+                                               +--------------------------+
+                                               |                          |
+                                               |     Logbook Component    |
+                                               |                          |
+                                               |  - loadLog               |
+                                               |  - loadLogByEventIds     |
+                                               |  - loadLogByRecordIds    |
+                                               +--------------------------+
+                                                         |
+                                                         |
+                                               +--------------------------+
+                                               |   File Storage (Logs)     |
+                                               |                           |
+                                               |  - Log files by host/log  |
+                                               |  - Index files            |
+                                               +--------------------------+
+
+                            +------------------------+    
+                            |                        |    
+                            |    LogListService      |    
+                            |                        |    
+                            |  - GetLogListByHost    |    
+                            |  - GetLogHostList      |    
+                            +------------------------+    
+                                         |
+                                         |
+                              +------------------------+
+                              |                        |
+                              |   LogLister Component  |
+                              |                        |
+                              |  - listAllLogs         |
+                              |  - getLoggedHosts      |
+                              +------------------------+
+                                         |
+                                         |
+                              +------------------------+
+                              |   config.json          |
+                              |   - log_path           |
+                              |   - redis_host         |
+                              |   - redis_password     |
+                              |   - redis_port         |
+                              +------------------------+
+
