@@ -163,7 +163,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
                               +------------------------+
 
 ```
-
+```
 +---------------------+        gRPC        +--------------------------+
 |                     |  <---------------->|                          |
 |     gRPC Client     |                    |      gRPC Server         |
@@ -201,3 +201,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
                             |  for paths, Redis  |
                             |  settings, etc.)   |
                             +--------------------+
+```
