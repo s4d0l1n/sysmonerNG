@@ -100,7 +100,7 @@ You can modify the configuration settings in `config.py` to suit your environmen
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
-
+```
  +-------------------+        gRPC Calls         +----------------------+
  |                   | ------------------------> |                      |
  |    gRPC Client    |                           |       gRPC Server    |
@@ -162,3 +162,42 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
                               |   - redis_port         |
                               +------------------------+
 
+```
+
++---------------------+        gRPC        +--------------------------+
+|                     |  <---------------->|                          |
+|     gRPC Client     |                    |      gRPC Server         |
+|                     |                    |                          |
++---------------------+                    +--------------------------+
+                                               |                  |
+                                               |                  |
+                                               V                  V
+                                      +------------------+    +------------------+
+                                      |                  |    |                  |
+                                      |  LogbookService  |    |  LogListService  |
+                                      |                  |    |                  |
+                                      +------------------+    +------------------+
+                                               |                  |
+                                  +------------+                  +------------+
+                                  |                                            |
+                            +--------------------+                +--------------------+
+                            |                    |                |                    |
+                            |      Logbook       |                |    LogLister       |
+                            |    (Business Logic)|                |   (Business Logic) |
+                            +--------------------+                +--------------------+
+                                  |                                          |
+                                  |                                          |
+                            +--------------------+                +--------------------+
+                            |                    |                |                    |
+                            |   Redis (Optional) | <------------->|  File Storage (Flat|
+                            |   for caching or   |                |   Files: Logs,     |
+                            |    event queue     |                |   Indexes)         |
+                            +--------------------+                +--------------------+
+                                  |
+                                  |
+                            +--------------------+
+                            |   config.json      |
+                            |  (Configuration    |
+                            |  for paths, Redis  |
+                            |  settings, etc.)   |
+                            +--------------------+
