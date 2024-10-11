@@ -1,0 +1,8 @@
+
+
+{
+    "redis_host": "192.168.1.76",
+    "redis_port": 6379,
+    "redis_password": "eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81",
+    "log_path": "/home/richard/Documents/pySysmoner/pySysmoner/logsNG"
+}

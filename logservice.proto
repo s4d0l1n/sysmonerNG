@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package logbook;
+
+// The request message for fetching logs by date range
+message LogDateRangeRequest {
+  string log_name = 1;            // Name of the log to fetch
+  string from_date = 2;           // Start date in ISO 8601 format
+  string to_date = 3;             // End date in ISO 8601 format
+}
+
+message LogListRequest {
+  string logged_host = 1;         // Host to fetch log names from
+}
+message LogHostListRequest { }
+
+
+// The response message that contains individual log entries
+message LogEntry {
+  string log_source = 1;          // The source of the log (e.g., "System")
+  int32 event_id = 2;             // The event ID
+  string time_created = 3;        // Time created in ISO 8601 format
+  int32 record_id = 4;            // Record ID for this log entry
+  string machine_name = 5;        // The name of the machine where the log was generated
+  string event_data = 6;          // Additional event data in JSON format
+}
+
+// The response message that holds a list of log entries
+message LogEntriesResponse {
+  repeated LogEntry entries = 1;  // List of log entries
+}
+
+// The response message that holds a list of log names
+message LogListResponse {
+  repeated string entries = 1;    // List of log names
+}
+
+message LogHostListResponse {
+  repeated string entries = 1;
+}
+// The Logbook service definition
+service LogbookService {
+  // RPC method to get logs by date range
+  rpc GetLogsByDateRange (LogDateRangeRequest) returns (stream LogEntriesResponse);
+}
+
+// The Log List service definition
+service LogListService {
+  // RPC method to get log names by host
+  rpc GetLogListByHost (LogListRequest) returns (LogListResponse);
+  rpc GetLogHostList (LogHostListRequest) returns (LogHostListResponse);
+}
+
